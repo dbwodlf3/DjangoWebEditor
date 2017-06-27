@@ -5,8 +5,9 @@ from django.http import HttpResponse
 # Create your views here.
 
 class Main(View):
+	template_name = 'Editor/layout.html'
 	def get(self, request, *args, **kwargs):
-		return HttpResponse("Well Come.")
+		return render(request, self.template_name)
 
 	def post(self, request, *args, **kwargs):
 		return HttpResponse("Get Out Here.")
