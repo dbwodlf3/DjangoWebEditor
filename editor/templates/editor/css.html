@@ -21,11 +21,30 @@
 		border-right:1px solid gray;
 		padding-left: 10px;
 		padding-right: 10px;
+		min-width: 100px;
+		max-width: 100px;
 		flex-grow: 1;
 	}
 	.content main{
 		border-right:1px solid gray;
 		padding-left: 10px;
 		flex-grow: 10;
+		padding-left:30%;
+	}
+	.editor{
+		font-size:50px;
+		max-width:600px;
+		margin-bottom:30px;
+		border-bottom:3px solid gray;
+	}
+
+	[contentEditable=true]:empty:not(:focus):before{
+		content:attr(data-text);
+		color:gray;
+		opacity: 0.5;
+	}
+
+	.textIteam{
+		max-width: 600px;
 	}
 </style>
