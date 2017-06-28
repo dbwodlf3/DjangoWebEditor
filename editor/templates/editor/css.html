@@ -1,46 +1,52 @@
 <style>
 	header{
-		border-bottom:1px solid gray;
-		padding-left:20px;
-		text-align:center;
-	}
-	footer{
-		border-top:1px solid gray;
-		padding:20px;
+		border-bottom: 1px solid gray;
+		padding-left: 20px;
 		text-align: center;
 	}
-	.container{
+    
+    footer{
+		border-top: 1px solid gray;
+		padding: 20px;
+		text-align: center;
+	}
+    
+    .container{
 		display: flex;
 		flex-direction: column;
 	}
-	.content{
-		display:flex;
+    
+    .content{
+		display: flex;
 	}
-	.content aside{
-		border-left:1px solid gray;
-		border-right:1px solid gray;
+    
+    .content aside{
+		border-left: 1px solid gray;
+		border-right: 1px solid gray;
 		padding-left: 10px;
 		padding-right: 10px;
 		min-width: 100px;
 		max-width: 100px;
 		flex-grow: 1;
-	}
+    }
+
 	.content main{
-		border-right:1px solid gray;
+		border-right: 1px solid gray;
 		padding-left: 10px;
 		flex-grow: 10;
-		padding-left:30%;
-	}
+        padding-left: 30%;
+    }
+
 	.editor{
-		font-size:50px;
-		max-width:600px;
-		margin-bottom:30px;
-		border-bottom:3px solid gray;
+		font-size: 50px;
+		max-width: 600px;
+		margin-bottom: 30px;
+		border-bottom: 3px solid gray;
 	}
 
 	[contentEditable=true]:empty:not(:focus):before{
-		content:attr(data-text);
-		color:gray;
+		content: attr(data-text);
+		color: gray;
 		opacity: 0.5;
 	}
 

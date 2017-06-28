@@ -1,21 +1,19 @@
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
-  $( function() {
-    $( "#draggable" ).draggable();
-  } );
-
-  $( function() {
-  	$("#sortable").sortable({handle : ".drag-handle"});
-  	$( "#sortable" ).disableSelection();
-
+  $(function() {
+    $("#draggable").draggable();
   });
-  </script>
 
+  $(function() {
+  	$("#sortable").sortable({handle : ".drag-handle"});
+  	$("#sortable").disableSelection();
+  });
+</script>
 
- <style>
- ul {
+<style>
+ul {
     list-style: none;
 }
 ul li {
@@ -27,7 +25,7 @@ ul li {
 .drag-handle {
     background-color: yellow;
 }
- </style>
+</style>
 
  <!--- 
 Drag Cancle로 드래그 범위를 제한 시켜줘야 해요!!
