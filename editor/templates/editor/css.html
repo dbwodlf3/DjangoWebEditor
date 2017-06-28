@@ -39,10 +39,12 @@
 
 	.editor{
 		font-size: 50px;
-		max-width: 600px;
-		margin-bottom: 30px;
+        max-width: 600px;
+        min-height: 60px;
+        margin-bottom: 30px;
 		border-bottom: 3px solid gray;
-	}
+        outline: none;
+    }
 
 	[contentEditable=true]:empty:not(:focus):before{
 		content: attr(data-text);
