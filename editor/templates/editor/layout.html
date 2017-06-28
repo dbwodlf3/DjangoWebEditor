@@ -1,29 +1,27 @@
 <!doctype html>
-<html lnag=ko>
-<html>
+<html lang=ko>
 	<head>
 		<meta charset="utf-8">
+		<title>Editor</title>
+		{% include "editor/css.html" %}
+		{% include "editor/javascript.html" %}
 	</head>
 
 	<body>
 		<div class="container">
-		<header>
-			<h1>Django Web Editor</h1>
-		</header>
+			<header>
+				<h1>Django Web Editor</h1>
+			</header>
 
 
-		<section class="content">
-			{% include "editor/write.html"%}
-		</section>
+			<section class="content">
+				{% include "editor/write.html"%}
+			</section>
 
 
-		<footer>
-			<h1>Footer</h1>
-		</footer>
+			<footer>
+				<h1>Footer</h1>
+			</footer>
 		</div>
 	</body>
 </html>
-
-
-{% include "editor/css.html" %}
-{% include "editor/javascript.html" %}
