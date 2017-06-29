@@ -80,7 +80,7 @@
         border-color: #b2b2b2;
 		padding: 20px;
 		text-align: center;
-        background-color: #fff;
+        background-color: #fefefe;
         min-height: 30px;
     }
     
@@ -93,26 +93,29 @@
     .content {
         display: flex;
         height: 100%;
+		overflow-y: scroll;
 	}
     
     .content aside {
-		border-left: 1px solid;
         border-right: 1px solid;
         border-color: #e1e1e1;
         background-color: #fbfbfb;
 		min-width: 200px;
         max-width: 20%;
+		min-height: 100%;
+		position: fixed;
+		z-index: -1;
         padding: 20px;
 		flex-grow: 1;
     }
 
 	.content main {
-		border-right: 1px solid gray;
 		padding-left: 10px;
         flex-grow: 10;
         padding: 30px;
         padding-left: 10%;
-        overflow-y: scroll;
+		display: table-inline;
+		margin-left: 240px;
     }
 
 	.editor {
