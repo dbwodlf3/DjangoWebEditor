@@ -1,73 +1,143 @@
 <style>
-	header{
-		border-bottom: 1px solid gray;
-		padding-left: 20px;
-		text-align: center;
+    /* RESET */
+    body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, 
+	form, fieldset, legend, textarea, p, blockquote, th, td, input, select,
+	textarea, button {
+		margin: 0;
+		padding: 0;
+	}
+
+    fieldset, img {
+		border: 0 none;
 	}
     
-    footer{
+	dl, ul, ol, menu, li {
+		list-style:none;
+	}
+    
+	blockquote, q {
+		quotes: none;
+	}
+    blockquote:before, blockquote:after, q:before, q:after {
+		content: '';
+		content: none;
+	}
+
+    input, select, textarea, button {
+		vertical-align: middle
+	}
+
+    button {
+		border:0 none;
+		background-color: transparent;
+		cursor:pointer;
+	}
+    
+	body {
+		position: relative;
+		background: #fff;
+		-webkit-text-size-adjust: none;
+	}
+
+    body, th, td, input, select, textarea, button {
+		font-size: 12px;
+		line-height: 1.5;
+		font-family: Helvetica;
+		color:#333;
+	} /* color값은 디자인가이드에 맞게사용 */
+    
+	a {
+		color: #3577e8;
+		text-decoration: none
+	}
+
+    a:active, a:hover {
+		text-decoration: underline
+	}
+
+    address, caption, cite, code, dfn, em, var {
+		font-style: normal;
+		font-weight:normal;
+	}
+
+    button::-moz-focus-inner,
+    input::-moz-focus-inner{
+		border:0;
+		padding:0;
+	}
+    
+    /* LAYOUT */
+    header {
+		border-bottom: 1px solid gray;
+		padding: 10px 25px;
+		float: left;
+	}
+    
+    footer {
 		border-top: 1px solid gray;
 		padding: 20px;
 		text-align: center;
 	}
     
-    .container{
+    .container {
 		display: flex;
 		flex-direction: column;
 	}
     
-    .content{
+    .content {
 		display: flex;
 	}
     
-    .content aside{
+    .content aside {
 		border-left: 1px solid gray;
 		border-right: 1px solid gray;
-		padding-left: 10px;
-		padding-right: 10px;
-		min-width: 100px;
-		max-width: 100px;
+		min-width: 200px;
+        max-width: 20%;
+        padding: 20px;
 		flex-grow: 1;
     }
 
-	.content main{
+	.content main {
 		border-right: 1px solid gray;
 		padding-left: 10px;
-		flex-grow: 10;
-        padding-left: 30%;
+        flex-grow: 10;
+        padding: 30px;
+        padding-left: 10%;
     }
 
-	.editor{
-		font-size: 50px;
+	.editor {
+		font-size: 40px;
         max-width: 600px;
         min-height: 60px;
-        margin-bottom: 30px;
 		border-bottom: 3px solid gray;
         outline: none;
-    }
+		margin: 0 0 30px 0;    
+	}
 
-	[contentEditable=true]:empty:not(:focus):before{
+	[contentEditable=true]:empty:not(:focus):before {
 		content: attr(data-text);
 		color: gray;
 		opacity: 0.5;
 	}
 
-	.textIteam{
+	.textIteam {
 		max-width: 600px;
-	}
-</style>
-<style>
-ul {
-    list-style: none;
-}
-ul li {
-    height: 90px;
-    width: 300px;
-    background-color: #eee;
-    border: 1px solid #aaa;
-}
-.drag-handle {
-    background-color: yellow;
-}
+    }
+    
+    /* EDITOR */
+    ul {
+        list-style: none;
+    }
+    
+    ul li {
+        height: 90px;
+        width: 300px;
+        background-color: #eee;
+        border: 1px solid #aaa;
+    }
+    
+    .drag-handle {
+        background-color: yellow;
+    }
 </style>
 
