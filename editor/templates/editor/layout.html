@@ -1,28 +1,29 @@
-<!doctype html>
 <html lang="ko">
 	<head>
 		<meta charset="utf-8">
-		<title>Editor</title>
-		{% include "editor/css.html" %}
-		{% include "editor/javascript.html" %}
 	</head>
-	<body>
-		<div class="container">
-			<header>
-				<h1>Django Web Editor</h1>
-			</header>
+<div class="container" id="contentBody">
 
 
-			<section class="content">
-				{% include "editor/write.html"%}
-			</section>
+	<div class="container" id="headerMenu">
+		<h1>Django Web Editor</h1>
+	</div>
 
-
-            <footer>
-                <!-- 임시 인라인 스타일 -->
-				<h1 style="position: absolute; left: 50%">Footer</h1>
-                <input id="Publish" class="button" type="submit" value="발행">
-            </footer>
+	<div class="container" id="writingBoard">
+		<div id="selectDiv">
 		</div>
-	</body>
+		<div class="lapping">
+		<div class="editorObject" id="test">
+		</div>
+		</div>	
+	</div>
+
+	<div class="container" id="sideBar">
+	</div>
+
+
+</div>
 </html>
+
+		{% include "editor/css.html" %} <!-- 추후, 수정이 필요한 부분.-->
+		{% include "editor/javascript.html" %} <!-- 추후, 수정이 필요한 부분. -->

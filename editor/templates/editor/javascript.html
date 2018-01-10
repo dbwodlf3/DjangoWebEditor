@@ -1,17 +1,50 @@
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
 <script>
-  $(function() {
-    $("#draggable").draggable();
-  });
+	//Select
+	var x,y;
+	var condition;
+	var selectObj = document.getElementById("selectDiv")
+	function selectStart(event){
+		x = event.clientX;
+		y = event.clientY;
+		condition = true;
+		console.log(event.offsetX,event.offsetY);
+		console.log(event.clientX,event.clientY);
+	}
+	function selectMove(event){
+		if (condition){
+		selectObj.style = null;
+		selectObj.style.display = "inline-block";
+		selectObj.style.border = "2px solid #0047AB";
+		var x2 = event.offsetX;
+		var y2 = event.offsetY;
+		var dx = x2-x;
+		var dy = y2-y;
+		if(dx<0){
+			selectObj.style.left = x2;
+			selectObj.style.width = -dx;
+		}else{
+			selectObj.style.left = x;
+			selectObj.style.width = dx;
+		}
+		if(dy<0){
+			selectObj.style.top = y2;
+			selectObj.style.height = -dy;
+		}else{
+			selectObj.style.top = y;
+			selectObj.style.height = dy;
+		}
+		}
+	}
+	function selectEnd(event){
+		condition = false;
+		selectObj.style.display = "none";
+		selectObj.style = null;
+	}
 
-  $(function() {
-  	$("#sortable").sortable({handle : ".drag-handle"});
-  	$("#sortable").disableSelection();
-  });
+	b = document.getElementById("writingBoard");
+	b.addEventListener("mousedown", selectStart);
+	b.addEventListener("mousemove", selectMove);
+	b.addEventListener("mouseup", selectEnd);
+	//b.addEventListener("mouseout", selectEnd);
+	console.log(b);
 </script>
-
-<!-- 
-Drag Cancle로 드래그 범위를 제한 시켜줘야 해요!!
--->
