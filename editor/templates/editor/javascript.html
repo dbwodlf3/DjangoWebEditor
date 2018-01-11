@@ -1,50 +1,146 @@
 <script>
-	//Select
-	var x,y;
-	var condition;
-	var selectObj = document.getElementById("selectDiv")
-	function selectStart(event){
-		x = event.clientX;
-		y = event.clientY;
-		condition = true;
-		console.log(event.offsetX,event.offsetY);
-		console.log(event.clientX,event.clientY);
-	}
-	function selectMove(event){
-		if (condition){
-		selectObj.style = null;
-		selectObj.style.display = "inline-block";
-		selectObj.style.border = "2px solid #0047AB";
-		var x2 = event.offsetX;
-		var y2 = event.offsetY;
-		var dx = x2-x;
-		var dy = y2-y;
-		if(dx<0){
-			selectObj.style.left = x2;
-			selectObj.style.width = -dx;
-		}else{
-			selectObj.style.left = x;
-			selectObj.style.width = dx;
-		}
-		if(dy<0){
-			selectObj.style.top = y2;
-			selectObj.style.height = -dy;
-		}else{
-			selectObj.style.top = y;
-			selectObj.style.height = dy;
-		}
-		}
-	}
-	function selectEnd(event){
-		condition = false;
-		selectObj.style.display = "none";
-		selectObj.style = null;
+//Select
+//selectObj 와, b라는 변수에 의존적임. selectObj는, drag효과를 낼 HTML DIV 태그.
+//b는, drag가 될 영역. selectObj는, b라는 태그 안에 있어야함.
+//또, selectObj어ㅏ, b는 CSS layout에 의존적임.
+class Select
+{
+	constructor(){
+		//bind
+		this.selectStart = this.selectStart.bind(this);
+		this.selectMove = this.selectMove.bind(this);
+		this.selectEnd = this.selectEnd.bind(this);
+
+		this.x, this.y;
+		this.x2, this.y2;
+		this.condition;
+		this.selectObj = document.getElementById("selectDiv")
+		this.b = document.getElementById("writingBoard");
 	}
 
-	b = document.getElementById("writingBoard");
-	b.addEventListener("mousedown", selectStart);
-	b.addEventListener("mousemove", selectMove);
-	b.addEventListener("mouseup", selectEnd);
+
+	selectStart(event){
+		this.x = event.clientX;
+		this.y = event.clientY;
+		this.condition = true;
+	}
+
+
+	selectMove(event){
+		if (this.condition){
+		this.selectObj.style = null;
+		this.selectObj.style.display = "inline-block";
+		this.selectObj.style.border = "2px solid #0047AB";
+		this.x2 = event.clientX;
+		this.y2 = event.clientY - 48; // event.offsetY을 이용하면 Editor에 Object들이 추가되었을 때. 해당 Object들의 offset까지 계산해서, 문제가 있음. 일단은 clientY- headeroffset으로 박아놓음. 추후 수정 필요.
+		var dx = this.x2-this.x;
+		var dy = this.y2-this.y;
+		if(dx<0){
+			this.selectObj.style.left = this.x2;
+			this.selectObj.style.width = -dx;
+		}else{
+			this.selectObj.style.left = this.x;
+			this.selectObj.style.width = dx;
+		}
+		if(dy<0){
+			this.selectObj.style.top = this.y2;
+			this.selectObj.style.height = -dy;
+		}else{
+			this.selectObj.style.top = this.y;
+			this.selectObj.style.height = dy;
+		}
+		}
+		console.log("x,y ", this.x,this.y);
+		console.log("x2,y2 ", this.x2,this.y2);
+	}
+
+
+	selectEnd(event){
+		this.condition = false;
+		this.selectObj.style.display = "none";
+		this.selectObj.style = null;
+	}
+
+
+	run(){
+	this.b.addEventListener("mousedown", this.selectStart);
+	this.b.addEventListener("mousemove", this.selectMove);
+	this.b.addEventListener("mouseup", this.selectEnd);
 	//b.addEventListener("mouseout", selectEnd);
-	console.log(b);
+	console.log(this.b);
+	}
+
+}
+
+Selection = new Select()
+Selection.run();
+
+</script>
+
+
+
+<script>
+	//editor Object. use a class.
+	/*
+	props = {
+		width:100px;
+		height:100px;
+		type:"editorObj";
+	}
+	*/
+
+
+
+class editorObj{
+	constructor(props){
+		//bind
+		this.setProps = this.setProps.bind(this);
+		this.setProps = this.setState.bind(this);
+
+		this.props = props;
+		this.state = {};
+		if (props == null){
+			this.props = {};
+		}
+	}
+
+
+	setProps(props){
+		this.props = Object.assign(this.props, props);
+	}
+
+
+	setState(props){
+		this.state = Object.assign(this.state, props);
+	}
+}
+
+
+
+class textObj extends editorObj{
+	constructor(props){
+		super(props);
+		this.setState({type:"text"});
+		this.createElement = this.createElement.bind(this);
+	}
+	createElement(DOMObj){
+		var textNode = document.createElement("div");
+		textNode.setAttribute("class","disable-select")
+		textNode.style.user_select = 'none'
+		var t = document.createTextNode("Hello World...?");
+		textNode.appendChild(t);
+		console.log(textNode);
+		DOMObj.appendChild(textNode);
+	}
+}
+
+
+
+class test{
+	hello(){console.log(this);}
+}
+
+t = new textObj();
+
+temp = document.getElementById("writingLapping");
 </script>
