@@ -21,7 +21,7 @@ class Select
 
 	selectStart(event){
 		this.x = event.clientX;
-		this.y = event.clientY;
+		this.y = event.clientY - 48; // event.offsetY을 이용하면 Editor에 Object들이 추가되었을 때. 해당 Object들의 offset까지 계산해서, 문제가 있음. 일단은 clientY- headeroffset으로 박아놓음. 추후 수정 필요.
 		this.condition = true;
 	}
 
@@ -32,7 +32,7 @@ class Select
 		this.selectObj.style.display = "inline-block";
 		this.selectObj.style.border = "2px solid #0047AB";
 		this.x2 = event.clientX;
-		this.y2 = event.clientY - 48; // event.offsetY을 이용하면 Editor에 Object들이 추가되었을 때. 해당 Object들의 offset까지 계산해서, 문제가 있음. 일단은 clientY- headeroffset으로 박아놓음. 추후 수정 필요.
+		this.y2 = event.clientY - 48; //위와 같은 문제.
 		var dx = this.x2-this.x;
 		var dy = this.y2-this.y;
 		if(dx<0){
@@ -50,8 +50,6 @@ class Select
 			this.selectObj.style.height = dy;
 		}
 		}
-		console.log("x,y ", this.x,this.y);
-		console.log("x2,y2 ", this.x2,this.y2);
 	}
 
 
@@ -67,9 +65,7 @@ class Select
 	this.b.addEventListener("mousemove", this.selectMove);
 	this.b.addEventListener("mouseup", this.selectEnd);
 	//b.addEventListener("mouseout", selectEnd);
-	console.log(this.b);
 	}
-
 }
 
 Selection = new Select()
@@ -91,11 +87,13 @@ Selection.run();
 
 
 
-class editorObj{
+class editorObj
+{
 	constructor(props){
 		//bind
 		this.setProps = this.setProps.bind(this);
 		this.setProps = this.setState.bind(this);
+		this.createElement = this.createElement.bind(this);
 
 		this.props = props;
 		this.state = {};
@@ -113,34 +111,48 @@ class editorObj{
 	setState(props){
 		this.state = Object.assign(this.state, props);
 	}
+	createElement(DOMObj){
+	this.setState({dragHandleNode:document.createElement("div")});
+	this.setState({selectHandleNode:document.createElement("div")});
+	this.setState({dataNode:document.createElement("div")});
+
+	this.state.dragHandleNode.setAttribute("class","dragHandle disable-select")
+	this.state.selectHandleNode.setAttribute("class","selectHandle disable-select")
+	this.state.dataNode.setAttribute("class","dataNode")
+
+	this.state.dragHandleNode.appendChild(this.state.selectHandleNode).appendChild(this.state.dataNode);
+	DOMObj.appendChild(this.state.dragHandleNode);
+	}
 }
 
 
-
-class textObj extends editorObj{
+class textObj extends editorObj
+{
 	constructor(props){
 		super(props);
 		this.setState({type:"text"});
-		this.createElement = this.createElement.bind(this);
+		this.prototype = editorObj;
 	}
 	createElement(DOMObj){
-		var textNode = document.createElement("div");
-		textNode.setAttribute("class","disable-select")
-		textNode.style.user_select = 'none'
-		var t = document.createTextNode("Hello World...?");
-		textNode.appendChild(t);
-		console.log(textNode);
-		DOMObj.appendChild(textNode);
+		super.createElement(DOMObj);
+		this.state.dataNode.setAttribute("contenteditable","true");
+		this.state.dataNode.focus();
+
+		this.state.dataNode.addEventListener("keydown",(event)=>{
+			if(event.keyCode == 13){
+			}
+
+		});
 	}
 }
 
 
-
-class test{
-	hello(){console.log(this);}
+//sidebar
+function addText(){
+	textObject = new textObj();
+	temp = document.getElementById("writingLapping");
+	textObject.createElement(temp);
+	console.log("event!")
 }
-
-t = new textObj();
-
-temp = document.getElementById("writingLapping");
+document.getElementById("addText").addEventListener("click",addText);
 </script>

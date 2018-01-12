@@ -12,12 +12,22 @@
 	<div class="container disable-select" id="writingBoard">
 		<div id="selectDiv">
 		</div>
-
-		<div class="lapping disable-select" id="writingLapping">
+		<div class="boardLapping disable-select" id="writingLapping">
+			<div id="titleBar">
+				강박증 걸릴 것 같자너~
+			</div>
+			<div class="dragHandle disable-select">
+				<div class="selectHandle disable-select">
+					<div class="dataNode" contenteditable="true">
+						개빡치자너~
+					</div>
+				</div>
+			</div>
 		</div>	
 	</div>
 
 	<div class="container disable-select" id="sideBar">
+		<span class="sideBarMenu" id="addText">add Text</span>
 	</div>
 
 
@@ -26,3 +36,4 @@
 
 		{% include "editor/css.html" %} <!-- 추후, 수정이 필요한 부분.-->
 		{% include "editor/javascript.html" %} <!-- 추후, 수정이 필요한 부분. -->
+
