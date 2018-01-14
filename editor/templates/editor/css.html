@@ -82,14 +82,18 @@ table {
 
 #headerMenu{
 	display:inline-block;
+	position:fixed; /*수정이 필요한 부분*/
 	vertical-align:top;
 	height:50px;
 	width:100%;
+	background-color:white;
+	z-index:999;
 }
 
 #sidebar{
 	display:inline-block;
-	position:absolute;
+	margin-top:50px; /* 수정이 필요한 부분*/
+	position:fixed;
 	vertical-align:top;
 	width:20%;
 	height:94.8%;
@@ -98,8 +102,9 @@ table {
 	display:inline-block;
 	position: relative;
 	vertical-align:top;
+	margin-top:50px; /* 수정이 필요한 부분 */
 	width:80%;
-	height:95%;
+	min-height:95%;
 }
 
 #selectDiv{

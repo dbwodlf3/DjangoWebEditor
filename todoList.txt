@@ -1,0 +1,18 @@
+1.
+editor objects have to be selected by a select DIVs event.
+use a collision detection.
+okay?
+okay.
+
+it mean collision decetetion is needed...
+
+2.
+editor objects have to be draggble and changeable their position..
+{this can be reached by css order property.}
+link : https://www.w3schools.com/jsref/prop_style_order.asp
+
+but, it's wrong.
+
+just you have to use javascript.
+insertHTML, and Delete a doc element.
+then, it will work. 
