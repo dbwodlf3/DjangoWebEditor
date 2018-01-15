@@ -62,12 +62,11 @@ class Select
 
 	run(){
 	this.b.addEventListener("mousedown", this.selectStart);
-	this.b.addEventListener("mousemove", this.selectMove);
+	this.b.addEventListener("mousemove", (event) => {this.selectMove(event); collisionDetection(event);});
 	this.b.addEventListener("mouseup", this.selectEnd);
 	//b.addEventListener("mouseout", selectEnd);
 	}
 }
-
 Selection = new Select()
 Selection.run();
 
@@ -99,7 +98,6 @@ class editorObj
 		if (props == null){
 			this.props = {};
 		}
-		editorObj.allInstance.push(this);
 		this.state.id = editorObj.lastId;
 		editorObj.lastId++;
 	}
@@ -125,18 +123,7 @@ class editorObj
 	this.state.dragHandleNode.appendChild(this.state.selectHandleNode).appendChild(this.state.dataNode);
 	DOMObj.appendChild(this.state.dragHandleNode);
 	}
-
-	static getById(id){
-		return editorObj.allInstance[id];
-	}
-	static deleteById(id){
-		if(editorObj.allInstance[id] != null){
-		editorObj.allInstance[id] = null;
-		}
-	}
 }
-editorObj.allInstance = [];
-editorObj.lastId = 0;
 
 class textObj extends editorObj
 {
@@ -182,7 +169,31 @@ w = d.getElementById("writingBoard");
 w2 = d.getElementById("writingLapping");
 editorObjInstance.state.dragHandleNode;
 
-function collisionDetection(selectionDiv, editorObj){
+function collisionDetection()
+{
+	//narrow phase. it can be more effective.
+	//init. always y2 > y.
+if(Selection.condition){
+		var y = Selection.y;
+		var y2 = Selection.y2;
+		var temp;
+		var w = document.getElementById("writingLapping");
+		var collisionObjs = [];
+		if(y>y2){
+			temp = y2;
+			y2 = y;
+			y = temp;
+		}
+		for(i in w.childNodes)
+		{
+			var top = w.childNodes[i].offsetTop;
+			var bottom = top + w.childNodes[i].offsetHeight;
+			if(y<top && top<y2){collisionObjs.push(w.childNodes[i])}
+			else if(y<bottom && bottom <y2){collisionObjs.push(w.childNodes[i])}
+			else if(top<y && bottom>y2){collisionObjs.push(w.childNodes[i])}
+		}
+		console.log(collisionObjs);
+	}
 }
 
 // test code..
