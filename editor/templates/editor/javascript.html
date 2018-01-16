@@ -3,19 +3,23 @@
 //selectObj 와, b라는 변수에 의존적임. selectObj는, drag효과를 낼 HTML DIV 태그.
 //b는, drag가 될 영역. selectObj는, b라는 태그 안에 있어야함.
 //또, selectObj어ㅏ, b는 CSS layout에 의존적임.
+
 class Select
 {
-	constructor(){
+	constructor(writingBoard,writingLapping){
 		//bind
 		this.selectStart = this.selectStart.bind(this);
 		this.selectMove = this.selectMove.bind(this);
 		this.selectEnd = this.selectEnd.bind(this);
-
+		this.collisionDetection = this.collisionDetection.bind(this);
+		//properties
+		this.writingBoard = writingBoard;
+		this.writingLapping = writingLapping;
 		this.x, this.y;
 		this.x2, this.y2;
 		this.condition;
 		this.selectObj = document.getElementById("selectDiv")
-		this.b = document.getElementById("writingBoard");
+		this.selectedObjs = null;
 	}
 
 
@@ -60,14 +64,89 @@ class Select
 	}
 
 
+	collisionDetection()
+	{
+		//narrow phase. it can be more effective.
+		//init. always y2 > y.
+		if(this.condition)
+			{
+				var y = this.y;
+				var y2 = this.y2;
+				var temp;
+				var w = this.writingLapping;
+				var collisionObjs = [];
+				if(y>y2){
+					temp = y2;
+					y2 = y;
+					y = temp;
+				}
+				for(i in w.childNodes)
+				{
+					var top = w.childNodes[i].offsetTop;
+					var bottom = top + w.childNodes[i].offsetHeight;
+					if(y<top && top<y2){collisionObjs.push(w.childNodes[i])}
+					else if(y<bottom && bottom <y2){collisionObjs.push(w.childNodes[i])}
+					else if(top<y && bottom>y2){collisionObjs.push(w.childNodes[i])}
+				}
+			return collisionObjs;
+			}
+	}
+
+
+	select(collisionObjs)
+	{
+		temp = "dragHandle disable-select selected";
+		for(i in collisionObjs)
+		{
+			collisionObjs[i].setAttribute("class", temp);
+		}
+	}
+	
+	
+	unSelect(collisionObjs)
+	{
+		temp = temp = "dragHandle disable-select";
+		for(i in collisionObjs)
+		{
+			try
+			{
+			collisionObjs[i].setAttribute("class",temp);
+			}
+			catch(err)
+			{
+				continue;
+			}
+		}
+	}
+
 	run(){
-	this.b.addEventListener("mousedown", this.selectStart);
-	this.b.addEventListener("mousemove", (event) => {this.selectMove(event); collisionDetection(event);});
-	this.b.addEventListener("mouseup", this.selectEnd);
+	this.writingBoard.addEventListener("mousedown", (event) => 
+		{
+			var w = document.getElementById("writingLapping");
+			this.selectStart(event);
+			this.unSelect(w.childNodes);
+		});
+	this.writingBoard.addEventListener("mousemove", (event) => 
+		{
+			if(this.condition){
+			var w = document.getElementById("writingLapping");
+			this.selectMove(event);
+			this.unSelect(w.childNodes);
+			this.select(this.collisionDetection());
+			}
+		});
+	this.writingBoard.addEventListener("mouseup", (event)=>
+	{
+		this.selectEnd();
+		console.log(this.collisionDetection());
+	});
 	//b.addEventListener("mouseout", selectEnd);
 	}
 }
-Selection = new Select()
+d = document;
+w = d.getElementById("writingBoard");
+w2 = d.getElementById("writingLapping");
+Selection = new Select(w,w2);
 Selection.run();
 
 </script>
@@ -143,7 +222,9 @@ class textObj extends editorObj
 		});
 	}
 }
-
+board = document.getElementById("writingBoard");
+editorObjInstance = new editorObj();
+editorObjInstance.state.dragHandleNode;
 
 //sidebar
 function addText(){
@@ -159,42 +240,7 @@ document.getElementById("addText").addEventListener("click",addText);
 
 //collision detection by narrow phase.
 
-board = document.getElementById("writingBoard");
-editorObjInstance = new editorObj();
 
-Selection.y;
-Selection.y2;
-d = document;
-w = d.getElementById("writingBoard");
-w2 = d.getElementById("writingLapping");
-editorObjInstance.state.dragHandleNode;
-
-function collisionDetection()
-{
-	//narrow phase. it can be more effective.
-	//init. always y2 > y.
-if(Selection.condition){
-		var y = Selection.y;
-		var y2 = Selection.y2;
-		var temp;
-		var w = document.getElementById("writingLapping");
-		var collisionObjs = [];
-		if(y>y2){
-			temp = y2;
-			y2 = y;
-			y = temp;
-		}
-		for(i in w.childNodes)
-		{
-			var top = w.childNodes[i].offsetTop;
-			var bottom = top + w.childNodes[i].offsetHeight;
-			if(y<top && top<y2){collisionObjs.push(w.childNodes[i])}
-			else if(y<bottom && bottom <y2){collisionObjs.push(w.childNodes[i])}
-			else if(top<y && bottom>y2){collisionObjs.push(w.childNodes[i])}
-		}
-		console.log(collisionObjs);
-	}
-}
 
 // test code..
 for(i in [...Array(50).keys()]){addText();}
