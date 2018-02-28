@@ -165,14 +165,18 @@ ul {
 
 .dragHandle{
 	text-align:center;
+	margin-bottom:10px;
 }
-.selectHandle{
+.clickHandle{
 	display:inline-block;
-	min-width:50%;
-	margin-top:10px;
+	min-width:70%;
+	padding:10px;
 }
 .dataNode{
+	display:inline-block;
 	text-align:left;
+	min-width:100%;
+	cursor:text;
 }
 
 /****
@@ -187,5 +191,10 @@ ul {
 
 .selected{
 	background-color:rgba(0,0,0,0.1);
+}
+.selectHandleCatch{
+	background: blue;
+	box-sizing: border-box;
+	cursor: pointer;
 }
 </style>

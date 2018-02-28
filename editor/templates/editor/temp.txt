@@ -1,0 +1,19 @@
+의존성 있는 id와 class를 작성 해야 하는데 작성을 안해놨네. 하하...
+
+id :
+contentBody,
+headerMenu,
+writingBoard,
+writingLapping,
+selectDiv,
+titleBar,
+sideBar,
+addText,
+
+class :
+dragHandle,
+disable-select,
+container,
+boardLapping,
+dataNode,
+sideBarMenu,

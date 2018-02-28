@@ -1,9 +1,8 @@
 <script>
 //Select
-//selectObj 와, b라는 변수에 의존적임. selectObj는, drag효과를 낼 HTML DIV 태그.
-//b는, drag가 될 영역. selectObj는, b라는 태그 안에 있어야함.
-//또, selectObj어ㅏ, b는 CSS layout에 의존적임.
-
+//selectDiv 와, b라는 변수에 의존적임. selectDiv는, drag효과를 낼 HTML DIV 태그.
+//writingBoard는, drag가 될 영역. selectDiv는, writingBoard라는 태그 안에 있어야함.
+//또, selectDiv와, writingBoard는 CSS layout에 의존적임.
 class Select
 {
 	constructor(writingBoard,writingLapping){
@@ -18,7 +17,7 @@ class Select
 		this.x, this.y;
 		this.x2, this.y2;
 		this.condition;
-		this.selectObj = document.getElementById("selectDiv")
+		this.selectDiv = document.getElementById("selectDiv")
 		this.selectedObjs = null;
 	}
 
@@ -30,37 +29,40 @@ class Select
 	}
 
 
-	selectMove(event){
-		if (this.condition){
-		this.selectObj.style = null;
-		this.selectObj.style.display = "inline-block";
-		this.selectObj.style.border = "2px solid #0047AB";
-		this.x2 = event.pageX;
-		this.y2 = event.pageY - 50; //위와 같은 문제.
-		var dx = this.x2-this.x;
-		var dy = this.y2-this.y;
-		if(dx<0){
-			this.selectObj.style.left = this.x2;
-			this.selectObj.style.width = -dx;
-		}else{
-			this.selectObj.style.left = this.x;
-			this.selectObj.style.width = dx;
-		}
-		if(dy<0){
-			this.selectObj.style.top = this.y2;
-			this.selectObj.style.height = -dy;
-		}else{
-			this.selectObj.style.top = this.y;
-			this.selectObj.style.height = dy;
-		}
+	selectMove(event)
+	{
+		if (this.condition)
+		{
+			var sd = this.selectDiv;
+			sd.style = null;
+			sd.style.display = "inline-block";
+			sd.style.border = "2px solid #0047AB";
+			this.x2 = event.pageX;
+			this.y2 = event.pageY - 50; //위와 같은 문제.
+			var dx = this.x2-this.x;
+			var dy = this.y2-this.y;
+			if(dx<0){
+				sd.style.left = this.x2;
+				sd.style.width = -dx;
+			}else{
+				sd.style.left = this.x;
+				sd.style.width = dx;
+			}
+			if(dy<0){
+				sd.style.top = this.y2;
+				sd.style.height = -dy;
+			}else{
+				sd.style.top = this.y;
+				sd.style.height = dy;
+			}
 		}
 	}
 
 
 	selectEnd(event){
 		this.condition = false;
-		this.selectObj.style.display = "none";
-		this.selectObj.style = null;
+		this.selectDiv.style.display = "none";
+		this.selectDiv.style = null;
 	}
 
 
@@ -101,8 +103,8 @@ class Select
 			collisionObjs[i].setAttribute("class", temp);
 		}
 	}
-	
-	
+
+
 	unSelect(collisionObjs)
 	{
 		temp = temp = "dragHandle disable-select";
@@ -125,6 +127,7 @@ class Select
 			var w = document.getElementById("writingLapping");
 			this.selectStart(event);
 			this.unSelect(w.childNodes);
+			this.selectedObjs = null;
 		});
 	this.writingBoard.addEventListener("mousemove", (event) => 
 		{
@@ -132,7 +135,8 @@ class Select
 			var w = document.getElementById("writingLapping");
 			this.selectMove(event);
 			this.unSelect(w.childNodes);
-			this.select(this.collisionDetection());
+			this.selectedObjs = this.collisionDetection();
+			this.select(this.selectedObjs);
 			}
 		});
 	this.writingBoard.addEventListener("mouseup", (event)=>
@@ -148,8 +152,20 @@ w = d.getElementById("writingBoard");
 w2 = d.getElementById("writingLapping");
 Selection = new Select(w,w2);
 Selection.run();
-
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -177,8 +193,6 @@ class editorObj
 		if (props == null){
 			this.props = {};
 		}
-		this.state.id = editorObj.lastId;
-		editorObj.lastId++;
 	}
 
 
@@ -192,15 +206,22 @@ class editorObj
 	}
 	createElement(DOMObj){
 	this.setState({dragHandleNode:document.createElement("div")});
-	this.setState({selectHandleNode:document.createElement("div")});
+	this.setState({clickHandleNode:document.createElement("div")});
 	this.setState({dataNode:document.createElement("div")});
 
 	this.state.dragHandleNode.setAttribute("class","dragHandle disable-select");
-	this.state.selectHandleNode.setAttribute("class","selectHandle disable-select");
+	this.state.clickHandleNode.setAttribute("class","clickHandle disable-select");
 	this.state.dataNode.setAttribute("class","dataNode");
 
-	this.state.dragHandleNode.appendChild(this.state.selectHandleNode).appendChild(this.state.dataNode);
+	
+
+	this.state.dragHandleNode.appendChild(this.state.clickHandleNode).appendChild(this.state.dataNode);
 	DOMObj.appendChild(this.state.dragHandleNode);
+
+	//이벤트 추가
+	this.state.clickHandleNode.addEventListener("mouseover", clickHandleEventEnter);
+
+	this.state.clickHandleNode.addEventListener("mouseout", clickHandleEventOut);
 	}
 }
 
@@ -236,12 +257,42 @@ function addText(){
 document.getElementById("addText").addEventListener("click",addText);
 </script>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script>
 
-//collision detection by narrow phase.
+//editorObjs switching....!
+function change(A,B){
 
-
-
+}
+//editorObjs, ClickHandle.
+function clickHandleEventEnter(event){
+	if(event.target == event.currentTarget){
+	event.currentTarget.style.cursor = "-webkit-grab"
+	event.currentTarget.style.boxShadow = "inset 0 0 10px #000000"
+	}
+	else{
+	event.currentTarget.style.cursor = "default"
+	console.log(event.currentTarget)
+	event.currentTarget.style.boxShadow = ""
+	}
+}
+function clickHandleEventOut(event){
+		event.currentTarget.style.cursor = "default"
+		console.log(event.currentTarget)
+		event.currentTarget.style.boxShadow = ""
+}
 // test code..
 for(i in [...Array(50).keys()]){addText();}
 </script>
